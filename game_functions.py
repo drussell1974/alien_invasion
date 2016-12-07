@@ -105,6 +105,13 @@ def update_screen(ai_settings, screen, stats, sb, ship, aliens, bullets, play_bu
     pygame.display.flip()
 
 
+def check_high_score(stats, sb):
+    """ Check to see if there's a new high score """
+    if stats.score > stats.high_score:
+        stats.high_score = stats.score
+        sb.prep_high_score()
+
+
 def check_fleet_edges(ai_settings, aliens):
     """ Respond appropriately if any aliens have reached an edge. """
     for alien in aliens.sprites():
@@ -187,6 +194,7 @@ def check_bullet_alien_collisions(ai_settings, screen, stats, sb, ship, aliens, 
             print(ai_settings.alien_points * len(aliens))
             stats.score += ai_settings.alien_points * len(aliens)
             sb.prep_score()
+        check_high_score(stats, sb)
         
     if len(aliens) == 0:
         # Destroy existing bullets, speed up game, and create new fleet
